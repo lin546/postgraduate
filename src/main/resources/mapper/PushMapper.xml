@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.PushMapper">
+	<resultMap id="BaseResultMap" type="model.Push">
+		<id column="id" property="ID" jdbcType="INTEGER" />
+		<id column="pid" property="PID" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<association property="page" javaType="model.Page">
+			<id column="id" property="ID" />
+			<result column="link" property="link" jdbcType="VARCHAR" />
+			<result column="title" property="title" jdbcType="VARCHAR" />
+			<result column="source" property="source" jdbcType="VARCHAR" />
+			<result column="star" property="star" jdbcType="INTEGER" />
+			<result column="view" property="view" jdbcType="INTEGER" />
+			<result column="content" property="content" jdbcType="VARCHAR" />
+			<result column="date" property="date" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+
+	<insert id="addPush" parameterType="model.Push">
+		insert into push
+		(pid,
+		type)
+		values
+		(
+		#{PID,jdbcType=INTEGER},
+		#{type,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="search" resultMap="BaseResultMap">
+		select
+		*
+		from push,page
+		where
+		push.pid=page.id and
+		page.title like
+		#{keyword,jdbcType=VARCHAR} or type
+		like
+		#{keyword,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateTypeByID" parameterType="model.Push">
+		update push
+		set
+		type=#{type,jdbcType=VARCHAR}
+		where id = #{ID,jdbcType=INTEGER}
+	</update>
+
+	<select id="allPush" resultMap="BaseResultMap">
+		select
+		push.*,page.*
+		from push,page where
+		push.pid=page.id
+	</select>
+
+	<select id="selectByID" resultMap="BaseResultMap">
+		select
+		push.*,page.*
+		from push,page where
+		push.pid=page.id and push.id = #{ID,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByType" resultMap="BaseResultMap"
+		parameterType="model.Push">
+		select
+		push.type,page.*
+		from push,page where push.pid=page.id
+		and type = #{type,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByID" parameterType="java.lang.Integer">
+		delete from push
+		where id =
+		#{ID,jdbcType=INTEGER}
+	</delete>
+
+	<select id="existPID" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT count(*) from push where pid =
+		#{PID,jdbcType=INTEGER}
+	</select>
+
+</mapper>

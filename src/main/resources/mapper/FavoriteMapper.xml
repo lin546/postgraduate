@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.FavoriteMapper">
+	<resultMap id="BaseResultMap" type="model.Favorite">
+		<id column="id" property="ID" jdbcType="INTEGER" />
+		<result column="userid" property="UID" jdbcType="INTEGER" />
+		<result column="pageid" property="PID" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<association property="user" javaType="model.User">
+			<id column="id" property="ID" />
+			<result column="account" property="account" jdbcType="VARCHAR" />
+			<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		</association>
+		<association property="page" javaType="model.Page">
+			<id column="id" property="ID" />
+			<result column="title" property="title" />
+			<result column="source" property="source" />
+			<result column="link" property="link" />
+		</association>
+	</resultMap>
+
+	<insert id="addFavorite" parameterType="Favorite">
+		insert into favorite (userid, pageid,title)
+		values
+		(#{UID,jdbcType=INTEGER},#{PID,jdbcType=INTEGER},#{title,jdbcType=INTEGER})
+	</insert>
+
+	<select id="selectByUserID" resultMap="BaseResultMap">
+		select
+		favorite.*
+		from favorite
+		where
+		favorite.userid = #{UID,jdbcType=INTEGER}
+	</select>
+		
+	<select id="selectByID" resultMap="BaseResultMap">
+		select
+		favorite.*
+		from favorite
+		where
+		favorite.id = #{ID,jdbcType=INTEGER}
+	</select>
+	<select id="existFavorite" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT count(*) from favorite where pageid=
+		#{PID,jdbcType=INTEGER} and userid = #{UID,jdbcType=INTEGER}
+	</select>
+	<select id="favoriteNumber" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT count(*) from favorite where userid = #{UID,jdbcType=INTEGER}
+	</select>
+	<select id="pagefavoriteNumber" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT count(*) from favorite where pageid = #{PID,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByID" parameterType="java.lang.Integer">
+		delete from favorite
+		where id
+		= #{ID,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByUserID" parameterType="java.lang.Integer">
+		delete from favorite
+		where userid
+		= #{UID,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteBy2ID" parameterType="java.lang.Integer">
+		delete from favorite
+		where userid = #{UID,jdbcType=INTEGER} and pageid=
+		#{PID,jdbcType=INTEGER}
+	</delete>
+</mapper>

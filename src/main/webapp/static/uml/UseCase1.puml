@@ -1,0 +1,10 @@
+@startuml
+    User-down-> (注册、登录、注销)
+    User-down-> (进入个人中心)
+    User-down->(浏览推送文章)
+    (收藏、评论文章).up.>(浏览推送文章):extend
+    (修改个人账户信息).up.>(进入个人中心):extend
+    (管理收藏与评论).right.>(进入个人中心)
+    (查看收藏与评论).down.>(管理收藏与评论):include
+    (删除收藏与评论).up.>(管理收藏与评论) :include
+@enduml
