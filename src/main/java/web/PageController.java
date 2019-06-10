@@ -183,7 +183,6 @@ public class PageController {
 				continue;
 			}
 		}
-
 		mov.addObject("pages", pages);
 		return mov;
 	}
