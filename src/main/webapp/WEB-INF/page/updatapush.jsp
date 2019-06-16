@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>updatapushwithtype</title>
+<title>updatapush</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/layui.css">
 </head>
 <body>

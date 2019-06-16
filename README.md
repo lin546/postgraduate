@@ -23,3 +23,4 @@ Postgraduate Information Platform.
 
 开发工具：IDEA、Maven、Git
 
+PS：数据库文件在docs目录下，论文等涉及隐私文档已加密。
